@@ -18,19 +18,24 @@ class Part1:
         row = 0
         part_numbers = []
         symbols = []
-        matches = []
+
         for line in file_lines:
             row += 1
             part_no_str = ""
             Part1.parse_line_into_symbols_and_part_numbers(line, part_no_str, part_numbers, row, symbols)
-            matches = [x for x in part_numbers if x.row in range(row-1, row+1)]
-            symbol_matches = [y for y in symbols if y.row in range(row-1, row+1) and y.index in range(x.start_index-1,x.end_index+1)]:
-            print("matches")
-               #  add part_number to result and delete it from list
-        #      if a symbol is adjacent to part (is row in range, is symbol index in range), add the part_number to result and delete from part_numbers
-        #      find parts out of the row window and delete
-        #      find symbols out of the row window and delete
 
+        for part in part_numbers:
+            start = part.row - 1
+            start2 = part.row
+            start3 = part.row + 1
+            idx = 0
+            if part.start_index > 0:
+               idx = part.start_index - 1
+            end_idx = part.end_index + 1
+            symbol_matches_by_row = [s for s in symbols if s.row in(start,start3,start2)]
+            symbol_matches_by_index = [s for s in symbol_matches_by_row if s.index >= idx and s.index <= end_idx]
+            if symbol_matches_by_index:
+                result += part.part_no
 
         return result
 
@@ -41,7 +46,7 @@ class Part1:
                 symbol = Symbol(row, i)
                 symbols.append(symbol)
                 part_no_str = Part1.add_part_number(i, part_no_str, part_numbers, row)
-            elif char != '.' and char.isdigit():
+            elif char.isdigit():
                 part_no_str += char
             elif char == '.':
                 part_no_str = Part1.add_part_number(i, part_no_str, part_numbers, row)
@@ -66,7 +71,7 @@ class Part2:
         return 0
 
 
-with open("test_input.txt", "r") as file:
+with open("input.txt", "r") as file:
     f = file.read().splitlines()
 
 print(f"Part 1: {Part1.solution(f)}")
