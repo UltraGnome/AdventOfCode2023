@@ -1,36 +1,32 @@
-class Part1:
-    @staticmethod
-    def solution(file_lines: list[str]) -> int:
-        """
+class Part1():
+    def __init__(self):
+        self.charge_up = []
+        self.record = []
 
-        Args:
-            file_lines: List of lines from input file
+    def read_data(self):
+        with open("input.txt", "r") as f:
+            document = f.read()
+        return document
 
-        Returns:
+    def evaluate(self, race_time: int, record: int):
+        count = 0
+        for charge_time in range(race_time):
+            dist = charge_time * race_time - charge_time ** 2
+            if dist > record:
+                count += 1
+        return count
 
-        """
-        return 0
-
-
-class Part2:
-    @staticmethod
-    def solution(file_lines: list[str]) -> int:
-        """
-
-        Args:
-            file_lines: List of lines from input file
-
-        Returns:
-
-        """
-        return 0
-
-
-with open("input.txt", "r") as file:
-    f = file.read().splitlines()
-
-print(f"Part 1: {Part1.solution(f)}")
-print(f"Part 2: {Part2.solution(f)}")
-
-
-
+def main():
+    solver = Part1()
+    data = solver.read_data().split("\n")
+    solver.charge_up.extend(data[0].split()[1:])
+    solver.record.extend(data[1].split()[1:])
+    total = 1
+    for (duration, record) in zip(solver.charge_up, solver.record):
+        duration, record = list(map(int, (duration, record)))
+        print(f"Race duration: {duration}")
+        print(f"Current record: {record}")
+        res = solver.evaluate(duration, record)
+        total *= res
+        print(f"Possible ways to beat record: {res}")
+    return total
