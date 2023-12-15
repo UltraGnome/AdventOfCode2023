@@ -48,7 +48,6 @@ class Part1:
             else:
                 blues.append(int(color_pair[0]))
 
-
 class Part2:
     @staticmethod
     def solution(file_lines: list[str]) -> int:
