@@ -41,19 +41,12 @@ class Part1:
 
 class Part2:
     @staticmethod
-    def solution(file_lines: list[str]) -> int:
-        """
+    def solution(file_contents) -> int:
+        rock_map = tuple(file_contents.splitlines())
+        for i in range(1_000_000_000 // 1000):
+            rock_map = Part2.thousand_cycles(rock_map)
 
-        Args:
-            file_lines: List of lines from input file
-
-        Returns:
-
-        """
-        return 0
-
-
-
+        return Part2.calculate_load(rock_map)
 
     @cache
     def move_north(rock_map: tuple[str]) -> tuple[str]:
@@ -92,12 +85,7 @@ class Part2:
 with open("input.txt", "r") as file:
     f = file.read()
 
-rock_map = tuple(f.splitlines())
-for i in range(1_000_000_000 // 1000):
-    rock_map = Part2.thousand_cycles(rock_map)
 
-final_load = Part2.calculate_load(rock_map)
-print(final_load)
 
 # print(f"Part 1: {Part1.solution(f)}")
 print(f"Part 2: {Part2.solution(f)}")
